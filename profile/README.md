@@ -58,7 +58,12 @@
 ## 시스템 아키텍처
 
 <p align="center">
-  <a href="https://github.com/team-agent-5/.github/blob/main/profile/assets/marieum-system-architecture.svg"><img src="https://github.com/team-agent-5/.github/raw/99b2a93fb7c8cb47fd3ca89ce076ae1deff8a9a6/profile/assets/marieum-system-architecture.png" width="100%" alt="마리음 시스템 아키텍처: Flutter 앱, Cloudflare Tunnel, NCP VPC의 APP·ML 서브넷, 외부 API" /></a>
+  <a href="https://github.com/team-agent-5/.github/blob/main/profile/assets/marieum-system-stack.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/team-agent-5/.github/raw/44833b6bd987ad912c34bc470e709b72beeb6d92/profile/assets/marieum-system-stack-dark.png" />
+      <img src="https://github.com/team-agent-5/.github/raw/44833b6bd987ad912c34bc470e709b72beeb6d92/profile/assets/marieum-system-stack.png" width="100%" alt="마리음 시스템 아키텍처: Flutter 앱, Cloudflare Tunnel, NAVER Cloud VPC의 APP·ML 서브넷, COPA 게이트웨이 경유 Claude·Gemini, Hugging Face" />
+    </picture>
+  </a>
 </p>
 
 - **네트워크 경계:** 앱은 Cloudflare Tunnel(HTTPS/WSS)로 APP 서브넷의 백엔드에만 접근합니다. GPU 서버(ML 서브넷)는 iptables로 백엔드 IP만 허용하고 외부에 노출하지 않습니다.
@@ -85,7 +90,7 @@
 - 이벤트 루프 1 · VAD 스레드 2 · GPU 스레드 1로 나누고, GPU 작업은 최대 4건 배치·final 우선으로 스케줄링합니다.
 - 실시간 모드는 1.75초 쉼마다 구간 final을 보내고, 중간 결과는 LocalAgreement-2로 확정/미확정 텍스트를 나눠 자막 흔들림을 줄입니다.
 
-<sub>세 도식은 [Archify](https://github.com/tt-a1i/archify)로 작성했습니다. 이미지를 누르면 SVG로 열리고, 인터랙티브 원본은 [assets](https://github.com/team-agent-5/.github/tree/main/profile/assets)에 있습니다.</sub>
+<sub>시스템 구성도는 [stack-diagram](https://github.com/wp230/stack-diagram), 정확도 API·ASR 서버 흐름도는 [Archify](https://github.com/tt-a1i/archify)로 작성했습니다. HTML 원본은 [assets](https://github.com/team-agent-5/.github/tree/main/profile/assets)에 있습니다.</sub>
 
 ## Tech Stack
 
