@@ -8,10 +8,13 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter" />
-  <img src="https://img.shields.io/badge/Android-34A853?style=flat-square&logo=android&logoColor=white" alt="Android" />
-  <img src="https://img.shields.io/badge/iOS-111111?style=flat-square&logo=apple&logoColor=white" alt="iOS" />
-  <img src="https://img.shields.io/badge/State%20Management-BLoC%20%2F%20Cubit-2E7DFF?style=flat-square" alt="BLoC / Cubit" />
-  <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/PostgreSQL%20%2B%20pgvector-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL + pgvector" />
+  <img src="https://img.shields.io/badge/Claude%20Sonnet%204.5-D97757?style=flat-square&logo=claude&logoColor=white" alt="Claude Sonnet 4.5" />
+  <img src="https://img.shields.io/badge/Whisper%20ASR-0F766E?style=flat-square" alt="Whisper ASR" />
+  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
+  <img src="https://img.shields.io/badge/NAVER%20Cloud%20Platform-03C75A?style=flat-square&logo=naver&logoColor=white" alt="NAVER Cloud Platform" />
+  <img src="https://img.shields.io/badge/NVIDIA%20L4%20GPU-76B900?style=flat-square&logo=nvidia&logoColor=white" alt="NVIDIA L4 GPU" />
 </p>
 
 <p align="center">
@@ -71,57 +74,15 @@ AI가 사용자의 의도를 대신 확정하기보다, 인식한 내용과 추�
 
 ## Tech Stack
 
-**Mobile · UI / State**
-
-<p>
-  <img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white" alt="Dart" />
-  <img src="https://img.shields.io/badge/BLoC%20%2F%20Cubit-2E7DFF?style=flat-square" alt="BLoC / Cubit" />
-  <img src="https://img.shields.io/badge/go_router-0F766E?style=flat-square" alt="go_router" />
-  <img src="https://img.shields.io/badge/get_it-475569?style=flat-square" alt="get_it" />
-  <img src="https://img.shields.io/badge/Material%203-6750A4?style=flat-square&logo=materialdesign&logoColor=white" alt="Material 3" />
-  <img src="https://img.shields.io/badge/Cupertino-111111?style=flat-square&logo=apple&logoColor=white" alt="Cupertino" />
-  <img src="https://img.shields.io/badge/Equatable-475569?style=flat-square" alt="Equatable" />
-</p>
-
-**Mobile · Audio / Network / Storage**
-
-<p>
-  <img src="https://img.shields.io/badge/Dio-2563EB?style=flat-square" alt="Dio" />
-  <img src="https://img.shields.io/badge/web_socket_channel-0F766E?style=flat-square" alt="web_socket_channel" />
-  <img src="https://img.shields.io/badge/record-475569?style=flat-square" alt="record" />
-  <img src="https://img.shields.io/badge/audio_session-475569?style=flat-square" alt="audio_session" />
-  <img src="https://img.shields.io/badge/duplex_audio%20%C2%B7%20Swift-F05138?style=flat-square&logo=swift&logoColor=white" alt="duplex_audio · Swift" />
-  <img src="https://img.shields.io/badge/flutter_tts-0F766E?style=flat-square" alt="flutter_tts" />
-  <img src="https://img.shields.io/badge/just_audio-475569?style=flat-square" alt="just_audio" />
-  <img src="https://img.shields.io/badge/flutter_secure_storage-475569?style=flat-square" alt="flutter_secure_storage" />
-  <img src="https://img.shields.io/badge/shared_preferences-475569?style=flat-square" alt="shared_preferences" />
-</p>
-
-**Backend · API / Recommendation / Data**
-
-<p>
-  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/PydanticAI-E92063?style=flat-square&logo=pydantic&logoColor=white" alt="PydanticAI" />
-  <img src="https://img.shields.io/badge/Claude-D97757?style=flat-square&logo=claude&logoColor=white" alt="Claude" />
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/pgvector-336791?style=flat-square" alt="pgvector" />
-  <img src="https://img.shields.io/badge/JWT-111111?style=flat-square&logo=jsonwebtokens&logoColor=white" alt="JWT" />
-  <img src="https://img.shields.io/badge/SQLAlchemy-D71F00?style=flat-square&logo=sqlalchemy&logoColor=white" alt="SQLAlchemy" />
-  <img src="https://img.shields.io/badge/ko--sroberta--multitask-475569?style=flat-square" alt="ko-sroberta-multitask" />
-</p>
-
-**AI · Speech / Inference**
-
-<p>
-  <img src="https://img.shields.io/badge/Whisper-0F766E?style=flat-square" alt="Whisper" />
-  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
-  <img src="https://img.shields.io/badge/Transformers-FFB000?style=flat-square&logo=huggingface&logoColor=white" alt="Transformers" />
-  <img src="https://img.shields.io/badge/Silero%20VAD-475569?style=flat-square" alt="Silero VAD" />
-  <img src="https://img.shields.io/badge/NVIDIA%20L4-76B900?style=flat-square&logo=nvidia&logoColor=white" alt="NVIDIA L4" />
-  <img src="https://img.shields.io/badge/NCP-03C75A?style=flat-square" alt="NCP" />
-  <img src="https://img.shields.io/badge/Uvicorn-499848?style=flat-square" alt="Uvicorn" />
-</p>
+| 영역 | 기술 | 적용 내용 |
+| :--- | :--- | :--- |
+| **App** | <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter" /> <img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white" alt="Dart" /> <img src="https://img.shields.io/badge/BLoC%20%2F%20Cubit-2E7DFF?style=flat-square" alt="BLoC / Cubit" /> | Android·iOS 단일 코드베이스, 화면 상태와 녹음·재생 상태 분리, Dio·WebSocket 통신, iOS 네이티브 오디오 플러그인 |
+| **Backend API** | <img src="https://img.shields.io/badge/Python%203.12-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.12" /> <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" /> <img src="https://img.shields.io/badge/Uvicorn-499848?style=flat-square" alt="Uvicorn" /> <img src="https://img.shields.io/badge/SQLAlchemy%202.0-D71F00?style=flat-square&logo=sqlalchemy&logoColor=white" alt="SQLAlchemy 2.0" /> <img src="https://img.shields.io/badge/Alembic-6BA81E?style=flat-square" alt="Alembic" /> <img src="https://img.shields.io/badge/JWT-111111?style=flat-square&logo=jsonwebtokens&logoColor=white" alt="JWT" /> | REST·WebSocket API, ASR HTTP/WS 프록시, asyncpg 비동기 DB 접근, 스키마 마이그레이션, JWT 인증·scrypt 해시 |
+| **AI · 문장 추천** | <img src="https://img.shields.io/badge/PydanticAI-E92063?style=flat-square&logo=pydantic&logoColor=white" alt="PydanticAI" /> <img src="https://img.shields.io/badge/Claude%20Sonnet%204.5-D97757?style=flat-square&logo=claude&logoColor=white" alt="Claude Sonnet 4.5" /> <img src="https://img.shields.io/badge/sentence--transformers-FF6F00?style=flat-square&logo=huggingface&logoColor=white" alt="sentence-transformers" /> | 구조화 출력을 강제한 추천 Agent, ko-sroberta 768차원 임베딩, 신뢰도 분기와 LLM → 규칙 랭커 → 기본 문장 3단 fallback |
+| **AI · 음성 인식** | <img src="https://img.shields.io/badge/Whisper-0F766E?style=flat-square" alt="Whisper" /> <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" /> <img src="https://img.shields.io/badge/Transformers-FFB000?style=flat-square&logo=huggingface&logoColor=white" alt="Transformers" /> <img src="https://img.shields.io/badge/Silero%20VAD-475569?style=flat-square" alt="Silero VAD" /> <img src="https://img.shields.io/badge/CUDA-76B900?style=flat-square&logo=nvidia&logoColor=white" alt="CUDA" /> | 구음장애 파인튜닝 whisper-small fp16 추론, 세션별 VAD 구간 분리, 최대 4건 배치·final 우선 GPU 스케줄링 |
+| **Data** | <img src="https://img.shields.io/badge/PostgreSQL%2016-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL 16" /> <img src="https://img.shields.io/badge/pgvector%200.8-336791?style=flat-square" alt="pgvector 0.8" /> <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" /> | 발화 기록·환자 선호와 임베딩을 한 DB에서 관리, IVFFlat 코사인 검색, PostgreSQL 컨테이너 운영 |
+| **Infra · Ops** | <img src="https://img.shields.io/badge/NAVER%20Cloud%20Platform-03C75A?style=flat-square&logo=naver&logoColor=white" alt="NAVER Cloud Platform" /> <img src="https://img.shields.io/badge/NVIDIA%20L4-76B900?style=flat-square&logo=nvidia&logoColor=white" alt="NVIDIA L4" /> <img src="https://img.shields.io/badge/systemd-30D475?style=flat-square" alt="systemd" /> <img src="https://img.shields.io/badge/iptables-A81D33?style=flat-square" alt="iptables" /> <img src="https://img.shields.io/badge/Cloudflare%20Tunnel-F38020?style=flat-square&logo=cloudflare&logoColor=white" alt="Cloudflare Tunnel" /> | NCP GPU Server에 ML 서버 배포, systemd 자동 재시작, iptables로 백엔드 서버만 접근 허용, SSL VPN 경유 관리, /healthz 준비 상태 확인 |
+| **Quality** | <img src="https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white" alt="pytest" /> <img src="https://img.shields.io/badge/Ruff-D7FF64?style=flat-square&logo=ruff&logoColor=white" alt="Ruff" /> <img src="https://img.shields.io/badge/uv-DE5FE9?style=flat-square" alt="uv" /> | GPU 없이 도는 가짜 엔진 테스트, 실시간·추천 레이어 import 격리 린트, uv 가상환경 |
 
 ## 서비스 아키텍처
 
@@ -170,6 +131,7 @@ AI가 사용자의 의도를 대신 확정하기보다, 인식한 내용과 추�
 | **백엔드 · 서비스 연동** | 앱과 AI 서버 사이의 계약을 관리하고 인증·기록·설정 기능 제공 | FastAPI API, JWT 인증, ASR HTTP·WebSocket 프록시, 데이터 저장, 요청 추적<br/>[서버 연동 트러블슈팅](https://github.com/team-agent-5/marieum-ai/blob/main/BACKEND_FAQ.md#4-연결-지연과-keep-alive) |
 | **개인화 추천** | 인식 결과만으로 부족한 문맥을 보완하고 선택 가능한 문장 제공 | pgvector 기반 문맥 검색, PydanticAI·Claude 추천, 응답 모드 분기, 선택 피드백과 실패 시 대체 응답<br/>[추천 실패 대응](https://github.com/team-agent-5/marieum-backend#3--정확도-추천-ai-agent) |
 | **AI · 음성 인식** | 구음장애 발화를 텍스트로 변환하고 대화 중 전사 결과 제공 | 구음장애 특화 Whisper 모델 연동, Silero VAD, GPU 추론, 중간·최종 전사, 배치 처리와 추론 검증<br/>[ASR 트러블슈팅](https://github.com/team-agent-5/marieum-ai/blob/main/TEST_RESULTS.md#6-무음잡음-환각-시험) |
+| **인프라 · 운영** | GPU 추론 서버를 안정적으로 띄우고 외부 접근을 막아 백엔드만 사용하도록 관리 | NCP GPU Server(NVIDIA L4) 배포, systemd 자동 재시작·부팅 시 기동, iptables 접근 제어, /healthz 준비 확인<br/>[ML 서버 운영 문서](https://github.com/team-agent-5/marieum-ai/blob/main/ML_SERVER.md#12-운영) |
 
 <sub>위 표는 시스템의 책임 영역입니다. 개인별 담당이나 기여 규모를 임의로 배정하지 않으며, 구체적인 구현 이력은 각 저장소의 커밋·PR에서 확인할 수 있습니다.</sub>
 
