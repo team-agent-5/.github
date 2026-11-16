@@ -1,0 +1,426 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Dysarthria-tuned Whisper on NCP GPU · NVIDIA L4 · port 8001",
+    "locale": "ko",
+    "output": "marieum-asr-server.html",
+    "quality_profile": "showcase",
+    "legend": {
+      "entries": {
+        "frontend": {
+          "label": "엔드포인트 · 응답 메시지"
+        },
+        "backend": {
+          "label": "CPU (VAD 풀 · 이벤트 루프)"
+        },
+        "messagebus": {
+          "label": "utterance 발화 모드"
+        },
+        "security": {
+          "label": "conversation 대화 모드"
+        },
+        "database": {
+          "label": "GPU 워커 스레드"
+        },
+        "external": {
+          "label": "모델 출처 · 운영"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "srv",
+      "label": "Dysarthria-tuned Whisper on NCP GPU · NVIDIA L4 · port 8001"
+    },
+    {
+      "id": "mdl",
+      "label": "Model card · 운영"
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "label": "① Endpoint",
+      "fromCol": 0,
+      "toCol": 0
+    },
+    {
+      "id": "p2",
+      "label": "② Preprocess",
+      "fromCol": 1,
+      "toCol": 1
+    },
+    {
+      "id": "p3",
+      "label": "③ Segment",
+      "fromCol": 2,
+      "toCol": 2
+    },
+    {
+      "id": "p4",
+      "label": "④ Model I/O",
+      "fromCol": 3,
+      "toCol": 4,
+      "variant": "emphasis"
+    },
+    {
+      "id": "p5",
+      "label": "⑤ Output",
+      "fromCol": 5,
+      "toCol": 5
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ws",
+      "lane": "srv",
+      "col": 0,
+      "yOffset": -110,
+      "type": "frontend",
+      "label": "WS /asr-stream",
+      "sublabel": "PCM16 · 100 ms frames",
+      "tag": "mode: utterance | conversation"
+    },
+    {
+      "id": "post",
+      "lane": "srv",
+      "col": 0,
+      "yOffset": 0,
+      "type": "frontend",
+      "label": "POST /asr",
+      "sublabel": "WAV 파일 · ≤ 60 s"
+    },
+    {
+      "id": "health",
+      "lane": "srv",
+      "col": 0,
+      "yOffset": 110,
+      "type": "frontend",
+      "label": "GET /healthz · /livez",
+      "sublabel": "readiness · liveness"
+    },
+    {
+      "id": "dr",
+      "lane": "srv",
+      "col": 1,
+      "yOffset": -110,
+      "type": "backend",
+      "label": "Decode · Resample",
+      "sublabel": "PCM16 → float32 → 16 kHz mono"
+    },
+    {
+      "id": "vad",
+      "lane": "srv",
+      "col": 1,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "Silero VAD",
+      "sublabel": "32 ms windows",
+      "tag": "VAD 스레드 풀 ×2"
+    },
+    {
+      "id": "utt",
+      "lane": "srv",
+      "col": 2,
+      "yOffset": -110,
+      "type": "messagebus",
+      "label": "utterance 발화 모드",
+      "sublabel": "세션당 1 세그먼트 · end 시 final",
+      "tag": "max 10 s"
+    },
+    {
+      "id": "snap",
+      "lane": "srv",
+      "col": 2,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "interim snapshot",
+      "sublabel": "새 음성 ~0.5 s마다 재전사"
+    },
+    {
+      "id": "conv",
+      "lane": "srv",
+      "col": 2,
+      "yOffset": 110,
+      "type": "security",
+      "label": "conversation 대화 모드",
+      "sublabel": "쉼 분할 · 무음 1.75 s → final",
+      "tag": "cut 15 s · session ≤ 600 s"
+    },
+    {
+      "id": "gpu",
+      "lane": "srv",
+      "col": 3,
+      "yOffset": 0,
+      "type": "database",
+      "label": "GPU worker",
+      "sublabel": "single thread · batch ≤ 4",
+      "tag": "final before interim",
+      "height": 84,
+      "icon": "cloud"
+    },
+    {
+      "id": "mel",
+      "lane": "srv",
+      "col": 3,
+      "yOffset": 120,
+      "type": "database",
+      "label": "log-Mel features",
+      "sublabel": "80 bins · 30 s window",
+      "icon": "cloud"
+    },
+    {
+      "id": "whisper",
+      "lane": "srv",
+      "col": 4,
+      "yOffset": 120,
+      "type": "database",
+      "label": "Whisper encoder → decoder",
+      "sublabel": "fp16 · greedy · forced ko·transcribe",
+      "tag": "token cap min(96/128, ceil(s×14)+8)",
+      "icon": "cloud"
+    },
+    {
+      "id": "gate",
+      "lane": "srv",
+      "col": 4,
+      "yOffset": 0,
+      "type": "database",
+      "label": "confidence · no_speech",
+      "sublabel": "mean token prob (≠ 정확도)",
+      "tag": "no_speech_prob > 0.6 → 빈 text",
+      "icon": "cloud"
+    },
+    {
+      "id": "tint",
+      "lane": "srv",
+      "col": 5,
+      "yOffset": -110,
+      "type": "frontend",
+      "label": "transcript_interim",
+      "sublabel": "stable_text · unstable_text · confidence",
+      "tag": "LocalAgreement-2 · WS only"
+    },
+    {
+      "id": "tfin",
+      "lane": "srv",
+      "col": 5,
+      "yOffset": 0,
+      "type": "frontend",
+      "label": "transcript_final",
+      "sublabel": "text · confidence · segment_id · is_last",
+      "tag": "WS only"
+    },
+    {
+      "id": "presp",
+      "lane": "srv",
+      "col": 5,
+      "yOffset": 110,
+      "type": "frontend",
+      "label": "POST /asr 응답",
+      "sublabel": "text · confidence · segments[ ]",
+      "tag": "segments: start_ms, end_ms"
+    },
+    {
+      "id": "m-base",
+      "lane": "mdl",
+      "col": 0,
+      "type": "external",
+      "label": "whisper-small",
+      "sublabel": "base · multilingual"
+    },
+    {
+      "id": "m-ft",
+      "lane": "mdl",
+      "col": 1,
+      "type": "external",
+      "label": "AI Hub 구음장애 음성",
+      "sublabel": "공개 모델 작성자가 파인튜닝"
+    },
+    {
+      "id": "m-w",
+      "lane": "mdl",
+      "col": 2,
+      "type": "external",
+      "label": "Hugging Face 가중치",
+      "sublabel": "yoona-J/ASR_Whisper_Disease_General"
+    },
+    {
+      "id": "m-dir",
+      "lane": "mdl",
+      "col": 3,
+      "type": "external",
+      "label": "로컬 모델 폴더",
+      "sublabel": "1회 다운로드"
+    },
+    {
+      "id": "m-rt",
+      "lane": "mdl",
+      "col": 4,
+      "type": "external",
+      "label": "PyTorch · Transformers",
+      "sublabel": "fp16 · L4 약 1.4 GB",
+      "tag": "warm-up batch 1–4"
+    },
+    {
+      "id": "m-acc",
+      "lane": "mdl",
+      "col": 5,
+      "type": "external",
+      "label": "Access · 운영",
+      "sublabel": ":8001 ← 10.1.1.11만 (iptables)",
+      "tag": "systemd 자동 재시작"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-ws-dr",
+      "from": "ws",
+      "to": "dr",
+      "label": "PCM16",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-post-vad",
+      "from": "post",
+      "to": "vad",
+      "label": "WAV → 16 kHz"
+    },
+    {
+      "id": "e-dr-vad",
+      "from": "dr",
+      "to": "vad"
+    },
+    {
+      "id": "e-vad-utt",
+      "from": "vad",
+      "to": "utt",
+      "label": "utterance",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-vad-conv",
+      "from": "vad",
+      "to": "conv",
+      "label": "conversation · POST",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-utt-snap",
+      "from": "utt",
+      "to": "snap",
+      "variant": "dashed"
+    },
+    {
+      "id": "e-conv-snap",
+      "from": "conv",
+      "to": "snap",
+      "variant": "dashed"
+    },
+    {
+      "id": "e-utt-gpu",
+      "from": "utt",
+      "to": "gpu",
+      "label": "final",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-snap-gpu",
+      "from": "snap",
+      "to": "gpu",
+      "label": "interim",
+      "variant": "dashed"
+    },
+    {
+      "id": "e-conv-gpu",
+      "from": "conv",
+      "to": "gpu",
+      "label": "구간 final",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "e-gpu-mel",
+      "from": "gpu",
+      "to": "mel"
+    },
+    {
+      "id": "e-mel-wh",
+      "from": "mel",
+      "to": "whisper",
+      "label": "80 × 3000",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "e-wh-gate",
+      "from": "whisper",
+      "to": "gate",
+      "label": "tokens + probs"
+    },
+    {
+      "id": "e-gate-tint",
+      "from": "gate",
+      "to": "tint",
+      "label": "interim",
+      "variant": "dashed"
+    },
+    {
+      "id": "e-gate-tfin",
+      "from": "gate",
+      "to": "tfin",
+      "label": "final",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-gate-presp",
+      "from": "gate",
+      "to": "presp",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "e-m1",
+      "from": "m-base",
+      "to": "m-ft"
+    },
+    {
+      "id": "e-m2",
+      "from": "m-ft",
+      "to": "m-w"
+    },
+    {
+      "id": "e-m3",
+      "from": "m-w",
+      "to": "m-dir"
+    },
+    {
+      "id": "e-m4",
+      "from": "m-dir",
+      "to": "m-rt"
+    },
+    {
+      "id": "e-m5",
+      "from": "m-rt",
+      "to": "whisper",
+      "label": "load",
+      "fromSide": "top",
+      "toSide": "bottom"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "읽는 법",
+      "items": [
+        "팀은 모델을 학습하지 않았다: 공개 파인튜닝 모델(yoona-J/ASR_Whisper_Disease_General)을 그대로 서빙",
+        "confidence = 평균 토큰 확률. 정확도(CER) 지표가 아님",
+        "confidence · no_speech_prob 계산은 Whisper 엔진 안에서 이뤄져 ④에 둠",
+        "LocalAgreement-2 · interim은 WebSocket 경로 전용, POST /asr은 conversation 분할 규칙으로 구간 결과만 반환"
+      ]
+    }
+  ]
+}

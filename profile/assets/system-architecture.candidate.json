@@ -1,0 +1,415 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "마리음(Marieum) 서비스 아키텍처",
+    "locale": "ko",
+    "output": "marieum-system-architecture.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "app_tts",
+      "type": "frontend",
+      "label": "음성 출력",
+      "sublabel": "기기 TTS (flutter_tts)",
+      "pos": [
+        40,
+        130
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "app_acc",
+      "type": "frontend",
+      "label": "정확도 모드",
+      "sublabel": "WAV 업로드 → 추천 → 선택",
+      "pos": [
+        40,
+        264
+      ],
+      "size": [
+        190,
+        72
+      ]
+    },
+    {
+      "id": "app_rt",
+      "type": "frontend",
+      "label": "실시간 모드",
+      "sublabel": "PCM16 16kHz · 100ms 프레임",
+      "pos": [
+        40,
+        410
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "tunnel",
+      "type": "security",
+      "label": "Cloudflare Tunnel",
+      "sublabel": "HTTPS·WSS · TLS",
+      "pos": [
+        310,
+        264
+      ],
+      "size": [
+        140,
+        210
+      ]
+    },
+    {
+      "id": "b_embed",
+      "type": "backend",
+      "label": "임베딩 ko-sroberta-multitask",
+      "sublabel": "768-dim · write-time · in-process",
+      "pos": [
+        570,
+        130
+      ],
+      "size": [
+        210,
+        64
+      ]
+    },
+    {
+      "id": "pg",
+      "type": "database",
+      "label": "PostgreSQL 16 + pgvector 0.8",
+      "sublabel": "phrase_log · phrase_catalog · patient_preference",
+      "pos": [
+        880,
+        130
+      ],
+      "size": [
+        230,
+        64
+      ]
+    },
+    {
+      "id": "b_api",
+      "type": "backend",
+      "label": "FastAPI 백엔드 (Python 3.12)",
+      "sublabel": "JWT 인증 · 사용자/환자 · /phrase/*",
+      "pos": [
+        570,
+        264
+      ],
+      "size": [
+        210,
+        72
+      ]
+    },
+    {
+      "id": "b_agent",
+      "type": "backend",
+      "label": "정확도 추천 Agent",
+      "sublabel": "PydanticAI · RAG · LLM→ranker→preset",
+      "pos": [
+        880,
+        264
+      ],
+      "size": [
+        230,
+        72
+      ]
+    },
+    {
+      "id": "b_asr",
+      "type": "backend",
+      "label": "ASR 프록시 (FastAPI 내)",
+      "sublabel": "HTTP: raw WAV → POST /asr  ·  WS: /ws/phrase/stream ↔ /asr-stream pass-through",
+      "pos": [
+        570,
+        410
+      ],
+      "size": [
+        540,
+        64
+      ]
+    },
+    {
+      "id": "ml_api",
+      "type": "backend",
+      "label": "NCP GPU Server 10.1.2.11 · marieum-ml :8001",
+      "sublabel": "FastAPI/uvicorn · WS /asr-stream · POST /asr · /healthz /livez · iptables ← 10.1.1.11",
+      "pos": [
+        570,
+        590
+      ],
+      "size": [
+        540,
+        64
+      ]
+    },
+    {
+      "id": "ml_worker",
+      "type": "backend",
+      "label": "GPU 워커 · Silero VAD → Whisper-small 구음장애 FT",
+      "sublabel": "PyTorch/Transformers fp16 · batch≤4 · final 우선 · NVIDIA L4 (inno-gpu-006)",
+      "pos": [
+        570,
+        700
+      ],
+      "size": [
+        540,
+        64
+      ]
+    },
+    {
+      "id": "gemini",
+      "type": "external",
+      "label": "클라우드 TTS (선택)",
+      "sublabel": "COPA · Gemini 2.5 Flash TTS",
+      "pos": [
+        1230,
+        130
+      ],
+      "size": [
+        210,
+        64
+      ]
+    },
+    {
+      "id": "claude",
+      "type": "external",
+      "label": "Claude Sonnet 4",
+      "sublabel": "Anthropic · COPA 게이트웨이 경유",
+      "pos": [
+        1230,
+        264
+      ],
+      "size": [
+        210,
+        72
+      ]
+    },
+    {
+      "id": "hf",
+      "type": "external",
+      "label": "Hugging Face Hub",
+      "sublabel": "yoona-J/ASR_Whisper_Disease_General",
+      "pos": [
+        1230,
+        700
+      ],
+      "size": [
+        210,
+        64
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Client · Flutter 앱 (iOS · Android)",
+      "wraps": [
+        "app_tts",
+        "app_acc",
+        "app_rt"
+      ],
+      "pad": 16
+    },
+    {
+      "kind": "region",
+      "label": "Cloudflare Edge",
+      "wraps": [
+        "tunnel"
+      ],
+      "pad": 16
+    },
+    {
+      "kind": "region",
+      "label": "NAVER Cloud Platform · VPC 10.1.0.0/16 · 사설망 · ACG",
+      "wraps": [
+        "b_embed",
+        "pg",
+        "b_api",
+        "b_agent",
+        "b_asr",
+        "ml_api",
+        "ml_worker"
+      ],
+      "pad": 18
+    },
+    {
+      "kind": "security-group",
+      "label": "APP subnet 10.1.1.0/24 · NCP Server (CPU) 10.1.1.11 · FastAPI + Docker PostgreSQL",
+      "wraps": [
+        "b_embed",
+        "pg",
+        "b_api",
+        "b_agent",
+        "b_asr"
+      ],
+      "pad": 12
+    },
+    {
+      "kind": "security-group",
+      "label": "ML subnet 10.1.2.0/24",
+      "wraps": [
+        "ml_api",
+        "ml_worker"
+      ],
+      "pad": 12
+    },
+    {
+      "kind": "region",
+      "label": "External APIs (인터넷)",
+      "wraps": [
+        "gemini",
+        "claude",
+        "hf"
+      ],
+      "pad": 16
+    }
+  ],
+  "connections": [
+    {
+      "id": "c_acc",
+      "from": "app_acc",
+      "to": "tunnel",
+      "label": "HTTPS"
+    },
+    {
+      "id": "c_rt",
+      "from": "app_rt",
+      "to": "tunnel",
+      "label": "WSS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c_api",
+      "from": "tunnel",
+      "to": "b_api",
+      "label": "터널 HTTP"
+    },
+    {
+      "id": "c_ws",
+      "from": "tunnel",
+      "to": "b_asr",
+      "label": "터널 WS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c_tr",
+      "from": "b_api",
+      "to": "b_asr",
+      "label": "transcribe: WAV",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c_sug",
+      "from": "b_api",
+      "to": "b_agent",
+      "label": "/phrase/suggest"
+    },
+    {
+      "id": "c_llm",
+      "from": "b_agent",
+      "to": "claude",
+      "label": "HTTPS egress",
+      "variant": "security"
+    },
+    {
+      "id": "c_rag",
+      "from": "b_agent",
+      "to": "pg",
+      "label": "pgvector RAG"
+    },
+    {
+      "id": "c_log",
+      "from": "b_api",
+      "to": "b_embed",
+      "label": "로그 쓰기"
+    },
+    {
+      "id": "c_vec",
+      "from": "b_embed",
+      "to": "pg",
+      "label": "768-dim 벡터"
+    },
+    {
+      "id": "c_asr",
+      "from": "b_asr",
+      "to": "ml_api",
+      "label": "HTTP POST /asr (raw WAV)"
+    },
+    {
+      "id": "c_asrws",
+      "from": "b_asr",
+      "to": "ml_api",
+      "label": "WS /asr-stream",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c_gpu",
+      "from": "ml_api",
+      "to": "ml_worker",
+      "label": "음성 구간 → GPU 배치",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c_hf",
+      "from": "hf",
+      "to": "ml_worker",
+      "label": "가중치 1회 다운로드",
+      "variant": "dashed"
+    },
+    {
+      "id": "c_tts",
+      "from": "app_tts",
+      "to": "gemini",
+      "label": "선택: 확정 문장 HTTPS TTS",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "top",
+      "via": [
+        [
+          135,
+          52
+        ],
+        [
+          1335,
+          52
+        ]
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "두 가지 트래픽 경로",
+      "items": [
+        "정확도: HTTPS multipart WAV → /phrase/transcribe → /phrase/suggest → /phrase/selection",
+        "실시간: WSS /ws/phrase/stream · 100ms PCM 프레임 → interim/final 수신 · /phrase/bypass 로그",
+        "추천 Agent: confidence router · pgvector RAG · fallback LLM→ranker→preset · 허용 집합 환각 가드"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "보안 경계",
+      "items": [
+        "공개 진입점은 Cloudflare Tunnel (HTTPS/WSS, TLS) 하나",
+        "NCP VPC 사설망 + ACG(보안그룹)",
+        "GPU :8001은 iptables로 10.1.1.11에서만 허용"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "운영 · 범위",
+      "items": [
+        "ML 서버: systemd 자동 재시작 · GET /healthz /livez",
+        "ML 서버는 ASR 전용 (LLM·DB·임베딩 없음)",
+        "실시간 Haiku 교정 코드는 있으나 운영 경로에 미연결"
+      ]
+    }
+  ]
+}

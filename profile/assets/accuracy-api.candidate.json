@@ -1,0 +1,387 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "마리음 정확도 모드 API · RAG 기반 Structured Agent",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "marieum-accuracy-api.html",
+    "legend": {
+      "entries": {
+        "frontend": {
+          "label": "Flutter 앱"
+        },
+        "backend": {
+          "label": "FastAPI 백엔드 · Orchestrator"
+        },
+        "cloud": {
+          "label": "모델 서버 · LLM"
+        },
+        "security": {
+          "label": "안전망 (fallback)"
+        },
+        "database": {
+          "label": "PostgreSQL + pgvector"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "app",
+      "label": "앱"
+    },
+    {
+      "id": "api",
+      "label": "API"
+    },
+    {
+      "id": "agent",
+      "label": "추천"
+    },
+    {
+      "id": "deps",
+      "label": "ML·DB"
+    }
+  ],
+  "phases": [
+    {
+      "id": "ph_asr",
+      "label": "① ASR 전사",
+      "fromCol": 0,
+      "toCol": 0
+    },
+    {
+      "id": "ph_route",
+      "label": "② 신뢰도 분기",
+      "fromCol": 1,
+      "toCol": 1
+    },
+    {
+      "id": "ph_agent",
+      "label": "③ RAG + Structured Agent",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "ph_safe",
+      "label": "④ 안전망 · 응답 · 선택",
+      "fromCol": 4,
+      "toCol": 5
+    }
+  ],
+  "groups": [
+    {
+      "id": "g_agent",
+      "label": "RAG 기반 Structured Agent",
+      "lane": "agent",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "g_safe",
+      "label": "할루시 가드 · allowed-set NFC",
+      "lane": "agent",
+      "fromCol": 4,
+      "toCol": 4,
+      "variant": "security"
+    }
+  ],
+  "mainPath": [
+    "rec",
+    "transcribe",
+    "suggest",
+    "router",
+    "rag",
+    "sonnet",
+    "l0",
+    "resp",
+    "pick"
+  ],
+  "nodes": [
+    {
+      "id": "rec",
+      "lane": "app",
+      "col": 0,
+      "type": "frontend",
+      "label": "녹음 · 정확도 모드",
+      "sublabel": "PCM16 → in-memory WAV",
+      "icon": "person",
+      "width": 150
+    },
+    {
+      "id": "transcribe",
+      "lane": "api",
+      "col": 0,
+      "type": "backend",
+      "label": "/phrase/transcribe",
+      "sublabel": "POST · multipart WAV",
+      "width": 150
+    },
+    {
+      "id": "whisper",
+      "lane": "deps",
+      "col": 0,
+      "type": "cloud",
+      "label": "ML ASR · POST /asr",
+      "sublabel": "Whisper 구음장애 fine-tuned",
+      "width": 150
+    },
+    {
+      "id": "suggest",
+      "lane": "api",
+      "col": 1,
+      "type": "backend",
+      "label": "/phrase/suggest",
+      "sublabel": "POST · prefix + confidence"
+    },
+    {
+      "id": "router",
+      "lane": "agent",
+      "col": 1,
+      "type": "backend",
+      "label": "Confidence Router",
+      "sublabel": "기본값 0.98 · 0.90 · 0.60",
+      "icon": "decision",
+      "yOffset": -43
+    },
+    {
+      "id": "retry",
+      "lane": "api",
+      "col": 2,
+      "type": "backend",
+      "label": "retry 즉시 응답",
+      "sublabel": "\"다시 말씀해 주세요\"",
+      "icon": "stop"
+    },
+    {
+      "id": "rag",
+      "lane": "agent",
+      "col": 2,
+      "type": "backend",
+      "label": "pgvector RAG 검색",
+      "sublabel": "cosine · time_bucket · 선호",
+      "icon": "database",
+      "yOffset": -43
+    },
+    {
+      "id": "plog",
+      "lane": "deps",
+      "col": 2,
+      "type": "database",
+      "label": "phrase_log · preference",
+      "sublabel": "768d ko-sroberta 임베딩"
+    },
+    {
+      "id": "sonnet",
+      "lane": "agent",
+      "col": 3,
+      "type": "cloud",
+      "label": "Claude Sonnet 4 Agent",
+      "sublabel": "PydanticAI · structured output",
+      "yOffset": -43
+    },
+    {
+      "id": "l0",
+      "lane": "agent",
+      "col": 4,
+      "type": "security",
+      "label": "L0 · LLM 결과 그대로",
+      "sublabel": "가드 통과 (pass)",
+      "yOffset": -43
+    },
+    {
+      "id": "l1",
+      "lane": "agent",
+      "col": 4,
+      "type": "security",
+      "label": "L1 · ranker fallback",
+      "sublabel": "RAG 상위 후보 (결정적)",
+      "yOffset": 43
+    },
+    {
+      "id": "l2",
+      "lane": "agent",
+      "col": 5,
+      "type": "security",
+      "label": "L2 · catalog preset",
+      "sublabel": "시간대 상용구",
+      "yOffset": 43
+    },
+    {
+      "id": "resp",
+      "lane": "agent",
+      "col": 5,
+      "type": "backend",
+      "label": "추천 응답 · typed mode",
+      "sublabel": "proactive·candidates·single",
+      "yOffset": -43
+    },
+    {
+      "id": "pick",
+      "lane": "app",
+      "col": 5,
+      "type": "frontend",
+      "label": "후보 선택 → TTS",
+      "sublabel": "사용자 수락 후에만 발화",
+      "icon": "person"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_rec",
+      "from": "rec",
+      "to": "transcribe",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e_asr",
+      "from": "transcribe",
+      "to": "whisper",
+      "variant": "default",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "label": "raw WAV → ml_text · conf"
+    },
+    {
+      "id": "e_sug",
+      "from": "transcribe",
+      "to": "suggest",
+      "label": "앱이 재호출",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e_route",
+      "from": "suggest",
+      "to": "router",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e_retry",
+      "from": "router",
+      "to": "retry",
+      "label": "< 0.60",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "e_retry_app",
+      "from": "retry",
+      "to": "pick",
+      "label": "LLM 미호출 · 우회",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "e_rag",
+      "from": "router",
+      "to": "rag",
+      "label": "≥ 0.60",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e_plog",
+      "from": "plog",
+      "to": "rag",
+      "label": "top-k · 24h 거절 제외",
+      "variant": "default"
+    },
+    {
+      "id": "e_llm",
+      "from": "rag",
+      "to": "sonnet",
+      "label": "후보+기록",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e_l0",
+      "from": "sonnet",
+      "to": "l0",
+      "label": "가드 통과",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e_l1",
+      "from": "sonnet",
+      "to": "l1",
+      "label": "환각·실패",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "e_l2",
+      "from": "l1",
+      "to": "l2",
+      "label": "부족 시 보충",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "e_r0",
+      "from": "l0",
+      "to": "resp",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e_r2",
+      "from": "l2",
+      "to": "resp",
+      "variant": "security",
+      "label": "L1/L2 후보"
+    },
+    {
+      "id": "e_show",
+      "from": "resp",
+      "to": "pick",
+      "label": "1–3 문장",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e_sel",
+      "from": "pick",
+      "to": "plog",
+      "label": "POST /phrase/selection · 수락/거절",
+      "variant": "dashed",
+      "role": "return",
+      "fromSide": "right",
+      "toSide": "right",
+      "route": "outside-right"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "신뢰도 분기 (기본 설정값 · env override)",
+      "items": [
+        "proactive ≥ 0.98: 들린 문장 그대로 재생 + AI 제안 1개 모달",
+        "candidates 0.90–0.98: ML 텍스트 + AI 2개 = 3지선다",
+        "single 0.60–0.90: ml_heard + AI 복원 1문장",
+        "retry < 0.60: \"다시 말씀해 주세요\" · RAG/LLM 호출 없음",
+        "confidence는 분기 임계값이며 측정된 정확도가 아님"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "안전망 L0 → L1 → L2",
+      "items": [
+        "allowed-set = 환자 기록 ∪ catalog ∪ 선호, NFC 정규화 후 멤버십 검사",
+        "L0: 가드를 통과한 LLM 결과 그대로",
+        "L1: 환각 · 타임아웃 · 실패 시 RAG 상위 후보로 결정적 대체",
+        "L2: L1 후보가 비거나 부족하면 시간대 catalog preset으로 보충",
+        "proactive 분기는 LLM 실패 시 들린 문장만 반환 (제안 없음)"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "개인화 피드백 루프",
+      "items": [
+        "AI 제안은 사용자가 수락해야만 TTS로 발화",
+        "/phrase/selection이 수락 · 거절을 phrase_log에 기록",
+        "기록은 다음 RAG 검색의 근거 · 24h 거절은 제외",
+        "기록 5건 미만(cold start)이면 시간대 상용구로 보강"
+      ]
+    }
+  ]
+}
