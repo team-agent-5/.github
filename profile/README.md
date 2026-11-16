@@ -7,9 +7,19 @@
 <p align="center">구음장애가 있는 사용자의 발화를 텍스트로 확인하고,<br/>상황에 맞는 문장을 선택해 음성으로 전달합니다.</p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Android-34A853?style=flat-square&logo=android&logoColor=white" alt="Android" />
+  <img src="https://img.shields.io/badge/iOS-111111?style=flat-square&logo=apple&logoColor=white" alt="iOS" />
+  <img src="https://img.shields.io/badge/State%20Management-BLoC%20%2F%20Cubit-2E7DFF?style=flat-square" alt="BLoC / Cubit" />
+  <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
+</p>
+
+<p align="center">
   <a href="#서비스-소개">서비스 소개</a> ·
   <a href="#서비스-아키텍처">아키텍처</a> ·
   <a href="#파트별-역할과-책임">파트별 역할</a> ·
+  <a href="#tech-stack">기술 스택</a> ·
+  <a href="#파트별-트러블슈팅">트러블슈팅</a> ·
   <a href="#repositories">저장소</a>
 </p>
 
@@ -59,21 +69,77 @@ AI가 사용자의 의도를 대신 확정하기보다, 인식한 내용과 추�
 
 <sub>App 저장소에 공개된 iOS 시뮬레이터 캡처입니다. 캡처 시점과 최신 구현 사이에 문구·배치 차이가 있을 수 있습니다.</sub>
 
+## Tech Stack
+
+**Mobile · UI / State**
+
+<p>
+  <img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white" alt="Dart" />
+  <img src="https://img.shields.io/badge/BLoC%20%2F%20Cubit-2E7DFF?style=flat-square" alt="BLoC / Cubit" />
+  <img src="https://img.shields.io/badge/go_router-0F766E?style=flat-square" alt="go_router" />
+  <img src="https://img.shields.io/badge/get_it-475569?style=flat-square" alt="get_it" />
+  <img src="https://img.shields.io/badge/Material%203-6750A4?style=flat-square&logo=materialdesign&logoColor=white" alt="Material 3" />
+  <img src="https://img.shields.io/badge/Cupertino-111111?style=flat-square&logo=apple&logoColor=white" alt="Cupertino" />
+  <img src="https://img.shields.io/badge/Equatable-475569?style=flat-square" alt="Equatable" />
+</p>
+
+**Mobile · Audio / Network / Storage**
+
+<p>
+  <img src="https://img.shields.io/badge/Dio-2563EB?style=flat-square" alt="Dio" />
+  <img src="https://img.shields.io/badge/web_socket_channel-0F766E?style=flat-square" alt="web_socket_channel" />
+  <img src="https://img.shields.io/badge/record-475569?style=flat-square" alt="record" />
+  <img src="https://img.shields.io/badge/audio_session-475569?style=flat-square" alt="audio_session" />
+  <img src="https://img.shields.io/badge/duplex_audio%20%C2%B7%20Swift-F05138?style=flat-square&logo=swift&logoColor=white" alt="duplex_audio · Swift" />
+  <img src="https://img.shields.io/badge/flutter_tts-0F766E?style=flat-square" alt="flutter_tts" />
+  <img src="https://img.shields.io/badge/just_audio-475569?style=flat-square" alt="just_audio" />
+  <img src="https://img.shields.io/badge/flutter_secure_storage-475569?style=flat-square" alt="flutter_secure_storage" />
+  <img src="https://img.shields.io/badge/shared_preferences-475569?style=flat-square" alt="shared_preferences" />
+</p>
+
+**Backend · API / Recommendation / Data**
+
+<p>
+  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/PydanticAI-E92063?style=flat-square&logo=pydantic&logoColor=white" alt="PydanticAI" />
+  <img src="https://img.shields.io/badge/Claude-D97757?style=flat-square&logo=claude&logoColor=white" alt="Claude" />
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/pgvector-336791?style=flat-square" alt="pgvector" />
+  <img src="https://img.shields.io/badge/JWT-111111?style=flat-square&logo=jsonwebtokens&logoColor=white" alt="JWT" />
+  <img src="https://img.shields.io/badge/SQLAlchemy-D71F00?style=flat-square&logo=sqlalchemy&logoColor=white" alt="SQLAlchemy" />
+  <img src="https://img.shields.io/badge/ko--sroberta--multitask-475569?style=flat-square" alt="ko-sroberta-multitask" />
+</p>
+
+**AI · Speech / Inference**
+
+<p>
+  <img src="https://img.shields.io/badge/Whisper-0F766E?style=flat-square" alt="Whisper" />
+  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
+  <img src="https://img.shields.io/badge/Transformers-FFB000?style=flat-square&logo=huggingface&logoColor=white" alt="Transformers" />
+  <img src="https://img.shields.io/badge/Silero%20VAD-475569?style=flat-square" alt="Silero VAD" />
+  <img src="https://img.shields.io/badge/NVIDIA%20L4-76B900?style=flat-square&logo=nvidia&logoColor=white" alt="NVIDIA L4" />
+  <img src="https://img.shields.io/badge/NCP-03C75A?style=flat-square" alt="NCP" />
+  <img src="https://img.shields.io/badge/Uvicorn-499848?style=flat-square" alt="Uvicorn" />
+</p>
+
 ## 서비스 아키텍처
 
 마리음은 **모바일 경험**, **서비스 API·개인화 추천**, **GPU 음성 인식**을 분리합니다. 앱은 백엔드를 통해 음성 인식 서버와 통신하고, 추천·기록·인증은 백엔드가 담당합니다.
 
-```mermaid
-flowchart LR
-    U[사용자] -->|발화·문장 선택| APP["Mobile App<br/>Flutter · Android / iOS"]
-    APP -->|HTTPS · WebSocket| API["Service Backend<br/>FastAPI"]
-    API -->|음성 업로드·스트리밍 중계| ASR["ASR Inference<br/>Whisper · Silero VAD<br/>PyTorch · NVIDIA L4"]
-    ASR -->|전사·신뢰도| API
-    API -->|개인화 문맥 검색·기록| DB[("PostgreSQL<br/>pgvector")]
-    API -->|문장 추천 요청| LLM["Recommendation<br/>PydanticAI · Claude"]
-    API -->|전사·추천 결과| APP
-    APP -->|기기 TTS / 준비된 음성 캐시| OUT[상대방에게 음성 전달]
-```
+<p align="center">
+  <a href="https://github.com/team-agent-5/.github/blob/main/profile/assets/marieum-architecture.svg">
+    <img src="https://github.com/team-agent-5/.github/raw/14855824897ccf78621eae2fb3d8d59910f1918f/profile/assets/marieum-architecture.svg" width="100%" alt="마리음 서비스 아키텍처: 모바일 앱, FastAPI 백엔드, GPU ASR, 개인화 추천과 TTS 흐름" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/team-agent-5/.github/blob/main/profile/assets/marieum-architecture.svg">확대해서 보기</a> ·
+  <a href="https://github.com/team-agent-5/.github/raw/main/profile/assets/marieum-architecture.html">인터랙티브 HTML 원본</a> ·
+  <a href="https://github.com/team-agent-5/.github/blob/main/profile/assets/candidate.json">Archify 소스</a>
+</p>
+
+<sub>Archify로 구성한 시스템 설명입니다. HTML 원본은 내려받아 브라우저에서 열면 구성 요소와 연결을 탐색할 수 있습니다. 그림의 ASR 일괄·스트리밍 블록은 같은 AI 서비스의 두 경로를 구분한 것입니다.</sub>
 
 ### 1. 정확도 모드: 확인하고 선택하는 흐름
 
@@ -99,11 +165,11 @@ flowchart LR
 
 | 파트 | 해결하는 문제와 책임 | 주요 구현·산출물 |
 | :--- | :--- | :--- |
-| **서비스 기획 · UX** | 구음장애 사용자의 의사소통 흐름을 정의하고, 확인 중심 대화와 실시간 대화를 구분 | 모드별 사용자 흐름, 큰 말하기 버튼·후보 선택·재시도 안내, 접근성을 고려한 화면 구성 |
-| **모바일 앱** | 녹음부터 문장 확인·선택·음성 재생까지의 사용자 경험을 안정적으로 연결 | Flutter UI, BLoC/Cubit 상태 관리, HTTP·WebSocket 연결, 플랫폼별 오디오 처리, TTS, 보안 토큰 저장 |
-| **백엔드 · 서비스 연동** | 앱과 AI 서버 사이의 계약을 관리하고 인증·기록·설정 기능 제공 | FastAPI API, JWT 인증, ASR HTTP·WebSocket 프록시, 데이터 저장, 요청 추적 |
-| **개인화 추천** | 인식 결과만으로 부족한 문맥을 보완하고 선택 가능한 문장 제공 | pgvector 기반 문맥 검색, PydanticAI·Claude 추천, 응답 모드 분기, 선택 피드백과 실패 시 대체 응답 |
-| **AI · 음성 인식** | 구음장애 발화를 텍스트로 변환하고 대화 중 전사 결과 제공 | 구음장애 특화 Whisper 모델 연동, Silero VAD, GPU 추론, 중간·최종 전사, 배치 처리와 추론 검증 |
+| **서비스 기획 · UX** | 구음장애 사용자의 의사소통 흐름을 정의하고, 확인 중심 대화와 실시간 대화를 구분 | 모드별 사용자 흐름, 큰 말하기 버튼·후보 선택·재시도 안내, 접근성을 고려한 화면 구성<br/>[화면·UX 이슈](https://github.com/team-agent-5/marieum-app#troubleshooting) |
+| **모바일 앱** | 녹음부터 문장 확인·선택·음성 재생까지의 사용자 경험을 안정적으로 연결 | Flutter UI, BLoC/Cubit 상태 관리, HTTP·WebSocket 연결, 플랫폼별 오디오 처리, TTS, 보안 토큰 저장<br/>[앱 트러블슈팅](https://github.com/team-agent-5/marieum-app#troubleshooting) |
+| **백엔드 · 서비스 연동** | 앱과 AI 서버 사이의 계약을 관리하고 인증·기록·설정 기능 제공 | FastAPI API, JWT 인증, ASR HTTP·WebSocket 프록시, 데이터 저장, 요청 추적<br/>[서버 연동 트러블슈팅](https://github.com/team-agent-5/marieum-ai/blob/main/BACKEND_FAQ.md#4-연결-지연과-keep-alive) |
+| **개인화 추천** | 인식 결과만으로 부족한 문맥을 보완하고 선택 가능한 문장 제공 | pgvector 기반 문맥 검색, PydanticAI·Claude 추천, 응답 모드 분기, 선택 피드백과 실패 시 대체 응답<br/>[추천 실패 대응](https://github.com/team-agent-5/marieum-backend#3--정확도-추천-ai-agent) |
+| **AI · 음성 인식** | 구음장애 발화를 텍스트로 변환하고 대화 중 전사 결과 제공 | 구음장애 특화 Whisper 모델 연동, Silero VAD, GPU 추론, 중간·최종 전사, 배치 처리와 추론 검증<br/>[ASR 트러블슈팅](https://github.com/team-agent-5/marieum-ai/blob/main/TEST_RESULTS.md#6-무음잡음-환각-시험) |
 
 <sub>위 표는 시스템의 책임 영역입니다. 개인별 담당이나 기여 규모를 임의로 배정하지 않으며, 구체적인 구현 이력은 각 저장소의 커밋·PR에서 확인할 수 있습니다.</sub>
 
@@ -113,6 +179,30 @@ flowchart LR
 - **명확한 API 계약:** 앱이 서버의 응답 모드를 해석해 원문·후보·추천·재시도 화면을 구성합니다.
 - **음성 전달 우선:** 재생과 로그 전송을 분리하고, 실시간 모드에서 새 클라우드 합성을 기다리지 않습니다.
 - **모델 출처와 검증 범위 구분:** 공개 AI 서버는 공개된 구음장애 특화 Whisper 파인튜닝 모델을 사용하는 추론·서빙 구현입니다. 이 서버의 구현을 팀의 자체 모델 학습 성과로 표현하지 않습니다.
+
+## 파트별 트러블슈팅
+
+구현 과정에서 마주친 문제와 처리 방식을 파트별로 바로 확인할 수 있습니다. 아래 링크는 **실제 저장소의 문제·대응 문서**로 연결됩니다.
+
+<p>
+  <a href="https://github.com/team-agent-5/marieum-app#troubleshooting"><img src="https://img.shields.io/badge/App%20%C2%B7%20Troubleshooting-02569B?style=flat-square&logo=flutter&logoColor=white" alt="앱 트러블슈팅" /></a>
+  <a href="https://github.com/team-agent-5/marieum-ai/blob/main/BACKEND_FAQ.md#4-연결-지연과-keep-alive"><img src="https://img.shields.io/badge/Backend%20%C2%B7%20Integration-009688?style=flat-square&logo=fastapi&logoColor=white" alt="백엔드 연동 트러블슈팅" /></a>
+  <a href="https://github.com/team-agent-5/marieum-backend#3--정확도-추천-ai-agent"><img src="https://img.shields.io/badge/AI%20%C2%B7%20Recommendation-D97757?style=flat-square&logo=claude&logoColor=white" alt="문장 추천 트러블슈팅" /></a>
+  <a href="https://github.com/team-agent-5/marieum-ai/blob/main/TEST_RESULTS.md#6-무음잡음-환각-시험"><img src="https://img.shields.io/badge/ASR%20%C2%B7%20Inference-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="ASR 추론 트러블슈팅" /></a>
+</p>
+
+| 파트 | 마주친 문제 | 처리·설계 포인트 | 바로가기 |
+| :--- | :--- | :--- | :--- |
+| **앱 · 인증 / 화면** | 잘못 입력한 비밀번호가 전체 세션 만료로 처리되거나 프로필 복원이 실패 | 실제 토큰을 첨부한 요청의 401만 만료 처리하고, null·문자열 응답을 방어적으로 해석 | [앱 Troubleshooting](https://github.com/team-agent-5/marieum-app#troubleshooting) |
+| **앱 · 음성 재생** | 선택 로그가 다음 재생을 막거나 화면 종료 후 늦은 콜백이 상태를 변경 | 로그 큐와 재생을 분리하고 타이머 취소·종료 가드 적용 | [오디오·상태 관리 사례](https://github.com/team-agent-5/marieum-app#troubleshooting) |
+| **백엔드 · ASR 연결** | 연결을 무조건 재생성하면 지연이 늘고, 한 연결에서 세션을 겹치면 음성이 섞임 | 발화별 연결 또는 순차 세션 재사용. 이전 세션 종료 후 다음 세션 시작 | [연결·keep-alive 규칙](https://github.com/team-agent-5/marieum-ai/blob/main/BACKEND_FAQ.md#4-연결-지연과-keep-alive) |
+| **백엔드 · 오디오 계약** | 지원하지 않는 포맷으로 보내면 415 / INVALID_FORMAT 발생 | 앱→백엔드 업로드와 백엔드→ML 원문 바이트 전달을 구분. ML에는 WAV 원문 또는 규격에 맞는 PCM16 전달 | [ML 요청 규격](https://github.com/team-agent-5/marieum-ai/blob/main/BACKEND_NOTICE_20261101.md#3-녹음-파일-전사-post-asr) |
+| **개인화 추천** | LLM 실패 또는 허용 문구 밖의 응답 생성 | 허용 후보 검증과 대체 추천 경로를 둬 생성 실패가 바로 서비스 실패로 이어지지 않게 구성 | [추천 구조·fallback](https://github.com/team-agent-5/marieum-backend#3--정확도-추천-ai-agent) · [현재 구현](https://github.com/team-agent-5/marieum-backend/blob/main/src/app/agent/orchestrator.py) |
+| **AI · 중간 전사** | 중간 자막을 계속 덧붙여 같은 내용이 반복 누적 | cumulative `text`는 append 대신 교체하고, final 수신 시 확정 문장으로 갱신 | [자막·delta 계약](https://github.com/team-agent-5/marieum-ai/blob/main/BACKEND_FAQ.md#3-text는-delta인가-cumulative인가) |
+| **AI · 무음 / 잡음** | 말하지 않았는데 문장이 생성되거나 confidence만으로 환각을 걸러내지 못함 | VAD·무음 확률과 빈 결과 처리를 함께 사용. 잡음 환각은 남아 있어 실제 녹음 기반 검증 필요 | [무음·잡음 시험](https://github.com/team-agent-5/marieum-ai/blob/main/TEST_RESULTS.md#6-무음잡음-환각-시험) · [confidence 분포](https://github.com/team-agent-5/marieum-ai/blob/main/TEST_RESULTS.md#51-confidence-분포) |
+| **AI · 문장 경계 / 지연** | 짧은 쉼에서 문장이 끊기고, 대기 시간을 늘리면 지연이 커짐 | 끝 무음·구간 길이를 조정하고 문장 보존과 동시 세션 지연의 trade-off를 측정 | [설정 변경과 측정 결과](https://github.com/team-agent-5/marieum-ai/blob/main/TEST_RESULTS.md#731-끝-무음-175초-구간-15초로-바꿈-2026-11-01) |
+
+<sub>문서에 기록된 문제·대응 및 당시 시험 결과입니다. 이미 수정된 과거 현상을 현재 운영 장애로 단정하지 않으며, 세부 정책은 연결된 최신 구현과 함께 확인합니다.</sub>
 
 ## Repositories
 
