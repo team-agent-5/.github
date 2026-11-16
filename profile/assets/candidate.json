@@ -1,0 +1,367 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "마리음 · 음성 전달 아키텍처",
+    "locale": "ko",
+    "output": "marieum-architecture.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "record",
+      "type": "frontend",
+      "label": "정확도 모드 · 녹음",
+      "sublabel": "PCM → 메모리 WAV",
+      "tag": "Flutter · Android / iOS",
+      "pos": [
+        40,
+        70
+      ],
+      "size": [
+        190,
+        74
+      ]
+    },
+    {
+      "id": "transcribe",
+      "type": "backend",
+      "label": "전사 API",
+      "sublabel": "POST /phrase/transcribe",
+      "tag": "FastAPI",
+      "pos": [
+        365,
+        70
+      ],
+      "size": [
+        210,
+        74
+      ]
+    },
+    {
+      "id": "asr-batch",
+      "type": "backend",
+      "label": "GPU ASR · 일괄 전사",
+      "sublabel": "Whisper-small · PyTorch",
+      "tag": "별도 ASR 서비스",
+      "pos": [
+        710,
+        70
+      ],
+      "size": [
+        230,
+        74
+      ]
+    },
+    {
+      "id": "choice",
+      "type": "frontend",
+      "label": "추천 요청 · 문장 선택",
+      "sublabel": "BLoC / Cubit 상태 관리",
+      "pos": [
+        40,
+        300
+      ],
+      "size": [
+        190,
+        74
+      ]
+    },
+    {
+      "id": "suggest",
+      "type": "backend",
+      "label": "문장 추천 · 선택 기록",
+      "sublabel": "/phrase/suggest · /phrase/selection",
+      "tag": "proactive / candidates / single / retry",
+      "pos": [
+        365,
+        300
+      ],
+      "size": [
+        210,
+        74
+      ]
+    },
+    {
+      "id": "claude",
+      "type": "cloud",
+      "label": "Claude",
+      "sublabel": "맥락 기반 문장 추천",
+      "pos": [
+        980,
+        270
+      ],
+      "size": [
+        190,
+        66
+      ]
+    },
+    {
+      "id": "postgres",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "pgvector 맥락 검색 · 로그",
+      "pos": [
+        980,
+        430
+      ],
+      "size": [
+        190,
+        66
+      ]
+    },
+    {
+      "id": "live",
+      "type": "frontend",
+      "label": "실시간 모드 · 마이크",
+      "sublabel": "PCM16 · 16kHz · mono",
+      "tag": "100ms 프레임",
+      "pos": [
+        40,
+        600
+      ],
+      "size": [
+        190,
+        74
+      ]
+    },
+    {
+      "id": "ws",
+      "type": "backend",
+      "label": "실시간 중계 API",
+      "sublabel": "/ws/phrase/stream",
+      "tag": "기본: LLM 교정·추천 없음",
+      "pos": [
+        365,
+        600
+      ],
+      "size": [
+        210,
+        74
+      ]
+    },
+    {
+      "id": "asr-live",
+      "type": "backend",
+      "label": "GPU ASR · 스트리밍",
+      "sublabel": "Silero VAD + Whisper-small",
+      "tag": "NCP · NVIDIA L4",
+      "pos": [
+        710,
+        600
+      ],
+      "size": [
+        230,
+        74
+      ]
+    },
+    {
+      "id": "tts",
+      "type": "frontend",
+      "label": "최종 문장 TTS 큐",
+      "sublabel": "기기 TTS / 준비된 클라우드 캐시",
+      "tag": "재생은 앱 책임",
+      "pos": [
+        40,
+        450
+      ],
+      "size": [
+        235,
+        74
+      ]
+    },
+    {
+      "id": "bypass",
+      "type": "backend",
+      "label": "우회 사용 기록",
+      "sublabel": "/phrase/bypass · 재생과 분리",
+      "pos": [
+        365,
+        830
+      ],
+      "size": [
+        235,
+        74
+      ],
+      "tag": "실시간 우회 사용 로그"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "모바일 앱",
+      "wraps": [
+        "record",
+        "choice",
+        "live",
+        "tts"
+      ],
+      "pad": 20
+    },
+    {
+      "kind": "region",
+      "label": "서비스 백엔드",
+      "wraps": [
+        "transcribe",
+        "suggest",
+        "ws",
+        "bypass"
+      ],
+      "pad": 20
+    },
+    {
+      "kind": "region",
+      "label": "AI · 별도 GPU ASR 서비스",
+      "wraps": [
+        "asr-batch",
+        "asr-live"
+      ],
+      "pad": 20
+    },
+    {
+      "kind": "region",
+      "label": "데이터 / 외부 제공자",
+      "wraps": [
+        "claude",
+        "postgres"
+      ],
+      "pad": 20
+    }
+  ],
+  "connections": [
+    {
+      "id": "upload",
+      "from": "record",
+      "to": "transcribe",
+      "label": "HTTPS · WAV",
+      "variant": "emphasis"
+    },
+    {
+      "id": "batch-proxy",
+      "from": "transcribe",
+      "to": "asr-batch",
+      "label": "ASR 중계",
+      "variant": "emphasis"
+    },
+    {
+      "id": "batch-text",
+      "from": "asr-batch",
+      "to": "transcribe",
+      "label": "전사 · 신뢰도"
+    },
+    {
+      "id": "transcript",
+      "from": "transcribe",
+      "to": "record",
+      "label": "전사 · 신뢰도"
+    },
+    {
+      "id": "transcript-to-choice",
+      "from": "record",
+      "to": "choice",
+      "label": "전사 후 추천 요청"
+    },
+    {
+      "id": "request-suggest",
+      "from": "choice",
+      "to": "suggest",
+      "label": "HTTPS · 추천·선택",
+      "variant": "emphasis"
+    },
+    {
+      "id": "typed-result",
+      "from": "suggest",
+      "to": "choice",
+      "label": "유형화된 응답"
+    },
+    {
+      "id": "recommendation",
+      "from": "suggest",
+      "to": "claude",
+      "label": "PydanticAI · 추천",
+      "variant": "emphasis"
+    },
+    {
+      "id": "context",
+      "from": "suggest",
+      "to": "postgres",
+      "label": "맥락 검색 · 선택 로그"
+    },
+    {
+      "id": "audio-stream",
+      "from": "live",
+      "to": "ws",
+      "label": "WebSocket · PCM",
+      "variant": "emphasis"
+    },
+    {
+      "id": "proxy-stream",
+      "from": "ws",
+      "to": "asr-live",
+      "label": "음성 프레임 중계",
+      "variant": "emphasis"
+    },
+    {
+      "id": "stream-result",
+      "from": "asr-live",
+      "to": "ws",
+      "label": "interim / final"
+    },
+    {
+      "id": "live-result",
+      "from": "ws",
+      "to": "live",
+      "label": "interim / final"
+    },
+    {
+      "id": "queue-final",
+      "from": "live",
+      "to": "tts",
+      "label": "final만 큐에 등록"
+    },
+    {
+      "id": "play-selection",
+      "from": "choice",
+      "to": "tts",
+      "label": "선택 문장 재생"
+    },
+    {
+      "id": "bypass-log",
+      "from": "live",
+      "to": "bypass",
+      "label": "별도 사용 기록",
+      "fromSide": "bottom",
+      "toSide": "left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "정확도 경로",
+      "items": [
+        "PCM을 메모리 WAV로 변환해 /phrase/transcribe 호출",
+        "별도 GPU ASR 전사·신뢰도 수신 후 앱이 /phrase/suggest 호출",
+        "추천 응답: proactive / candidates / single / retry · /phrase/selection 별도 기록"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "실시간 경로",
+      "items": [
+        "PCM16 · 16kHz · mono · 100ms 프레임 → /ws/phrase/stream",
+        "백엔드는 ASR 프록시 · interim/final을 앱으로 중계",
+        "기본 경로에는 LLM 교정·추천 없음 · final은 앱 TTS 큐로"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "시스템 설명 · 범위",
+      "items": [
+        "공개 문서로 확인된 시스템 설명이며 로컬 코드 검증 다이어그램이 아님",
+        "ASR: Transformers · yoona-J/ASR_Whisper_Disease_General 공개 모델",
+        "기기 TTS 또는 이미 준비된 클라우드 캐시 · /phrase/bypass는 재생과 별도",
+        "학습·연구 구성 및 근거 없는 인프라는 표시하지 않음"
+      ]
+    }
+  ]
+}
